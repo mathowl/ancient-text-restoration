@@ -23,6 +23,8 @@ from collections import Counter
 
 from tqdm import tqdm
 
+print(os.getcwd())
+
 from ..include.alphabet import GreekAlphabet
 from ..include.dataset import Dataset
 from ..include.text import Text
@@ -61,9 +63,10 @@ def process_greek_epigraphy(save=True):
   # plain text paths
   text_paths = glob.glob(os.path.expanduser(os.path.join(FLAGS.input_dir, '*.txt')))
   for text_path in tqdm(text_paths):
-    with open(text_path, 'r') as f:
+    with open(text_path, 'r', encoding='utf-8') as f:
 
       # clean text
+      #print(f.read())
       t = text_clean_phi(f.read(), greek_alphabet)
 
       # tokenize sentences
@@ -76,7 +79,7 @@ def process_greek_epigraphy(save=True):
       dataset['phi7'].texts.append(text)
 
       # store it to a file
-      with open(text_path.replace(FLAGS.input_dir, FLAGS.output_plaintext_dir), 'w') as f_plain:
+      with open(text_path.replace(FLAGS.input_dir, FLAGS.output_plaintext_dir), 'w', encoding='utf-8') as f_plain:
         f_plain.write(t)
 
   texts_statistics(dataset['phi7'].texts)
@@ -152,11 +155,11 @@ def generate_wordlist():
       cnt_accents[word] += 1
       cnt_noaccents[strip_accents(word)] += 1
 
-  with open(os.path.join(FLAGS.output_dataset_dir, "greek_epigraphy_wordlist.txt"), "w") as f:
+  with open(os.path.join(FLAGS.output_dataset_dir, "greek_epigraphy_wordlist.txt"), "w",encoding = 'utf-8') as f:
     output = '\n'.join(['{}\t{}'.format(w, w_count) for w, w_count in cnt_accents.most_common()])
     f.write(output)
 
-  with open(os.path.join(FLAGS.output_dataset_dir, "greek_epigraphy_wordlist.txt"), "w") as f:
+  with open(os.path.join(FLAGS.output_dataset_dir, "greek_epigraphy_wordlist.txt"), "w",encoding = 'utf-8') as f:
     output = '\n'.join(['{}\t{}'.format(w, w_count) for w, w_count in cnt_noaccents.most_common()])
     f.write(output)
 
