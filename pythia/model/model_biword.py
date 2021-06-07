@@ -175,7 +175,7 @@ class Model(snt.AbstractModule):
         encoder_lengths = tf.contrib.seq2seq.tile_batch(encoder_lengths,
                                                         multiplier=beam_width)
 
-      # define attetnion
+      # define attention
       self.attention_mechanism = attention_fn(rnn_size_dec,
                                               memory=encoder_output,
                                               memory_sequence_length=encoder_lengths,
