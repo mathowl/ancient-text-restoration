@@ -25,7 +25,7 @@ from tqdm import tqdm
 
 p = argparse.ArgumentParser(description='PHI download')
 p.add_argument('--connections', default=100, type=int, metavar='N', help='number of connections')
-p.add_argument('--timeout', default=5, type=int, metavar='N', help='seconds to timeout')
+p.add_argument('--timeout', default=1000, type=int, metavar='N', help='seconds to timeout') # The timeout needed to be increase to get any output
 p.add_argument('--output', default=os.getcwd() + '/pythia/data/phi/', type=str, help='output path')
 p.add_argument('--max_phi_id', default=400000, type=int, metavar='N', help='maximum phi inscription id')
 FLAGS = p.parse_args()
@@ -56,7 +56,8 @@ def load_phi_id(phi_id, timeout, output, scraper=requests):
 
       text = "\n".join(lines)
 
-      with open(file_path, 'w') as f:
+      with open(file_path, 'w', encoding='utf-8') as f: #needs utf-8
+        #print(text)
         f.write(text)
     except:
       return 'Error'
